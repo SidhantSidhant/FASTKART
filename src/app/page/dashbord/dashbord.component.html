@@ -1,0 +1,42 @@
+<!-- <app-table></app-table> -->
+
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-md-2 width">
+            <div class="ml-4 my-5 logo">
+                <a routerLink="/dashbord">Fastkart.</a>
+            </div>
+            <div routerLinkActive="icon" [routerLinkActiveOptions]="{exact : true}">
+                <button mat-button routerLink="/dashbord">
+                    <mat-icon class="text-white ">
+                        home
+                    </mat-icon>
+                </button>
+                <a routerLink="/dashbord">Dashbord</a>
+            </div>
+            <div>
+                <button mat-button class="text-white ml-1" [matMenuTriggerFor]="menu">
+                    <mat-icon>person</mat-icon>
+                </button>
+                <span [matMenuTriggerFor]="menu" [ngStyle]="{'cursor' : 'pointer' }" class="ml-1">Users</span>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>- Add users</button>
+                    <button mat-menu-item routerLinkActive="icon" routerLink="table">- Role</button>
+                </mat-menu>
+            </div>
+            <div>
+                <button mat-button class="text-white ml-1" routerLinkActive="icon">
+                    <mat-icon>image</mat-icon>
+                </button>
+                <span class="ml-1" [ngStyle]="{'cursor' :'pointer'}"   routerLink="images">media</span>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <app-navbar></app-navbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

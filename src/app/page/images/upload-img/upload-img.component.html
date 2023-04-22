@@ -1,0 +1,25 @@
+
+
+
+<div class="silderBox" >
+    <div class="slide mat-elevation-z7 p-4">
+        <div class="d-flex justify-content-between">
+            <h1>Insert Img</h1>
+            <button mat-button (click)="HideDragSlider()">
+                <mat-icon>
+                    close
+                </mat-icon>
+            </button>
+        </div>
+        <form #f="ngForm" (ngSubmit)="InsetrtTheImg(f)">
+            <div class="imgUploadButton">
+                <input type="file" name="imgpath" value="select" ngModel class="text-capitalize input" id=""
+                    (change)="selectFile($event)" multiple
+                >
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" >Insert Img</button>
+            </div>
+        </form>
+    </div>
+</div>

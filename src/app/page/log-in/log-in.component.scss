@@ -1,0 +1,30 @@
+.logInForm {
+    width: 100%;
+    height: 100vh;
+    background-image: url("https://webiots.co.in/fastkart-angular/bg.fc6c5fa353805e8e.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 3rem;
+    position: relative;
+
+
+    form {
+        position: absolute;
+        background-color: white;
+        padding: 3rem;
+        width: 35rem;
+        top:15%;
+        left: 10%;
+        border-radius: 1rem;
+    }
+
+   
+
+    @media all and (max-width : 600px) {
+        form {
+            width: auto ;
+        }
+    }
+
+}

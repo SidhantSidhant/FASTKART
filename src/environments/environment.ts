@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  logIn :'https://fastkart.webiots.co.in/api/backend/login',
+  fastkartModule : `https://fastkart.webiots.co.in/api/module/Get`,
 };
 
 /*

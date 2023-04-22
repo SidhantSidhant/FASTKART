@@ -1,0 +1,31 @@
+<div class="d-flex flex-column">
+    <div col="input">
+        <h1 class="text-capitalize mb-md-5 text-center">media library</h1>
+        <div class="form-group zindex">
+            <label for="Search"><strong>Search : -</strong></label>
+            <input type="text" [(ngModel)]="Input" class="form-control">
+        </div>
+    </div>
+    <hr>
+    <div class="text-right">
+        <select id="" class="form-control mb-3" #ref [ngStyle]="{ 'padding': '10px'}">
+            <option value="" *ngFor="let arr of sortArray | sort : ref.value">{{arr}}</option>
+        </select>
+
+        <div [ngStyle]="{'margin-bottom': '1rem'}">
+            <button class="btn btn-info" (click)="DragSlider()"> + Add Media</button>
+        </div>
+    </div>
+</div>
+
+<div class="row ml-2 mt-md-5 mt-xs-3 ">
+    <div class="col-md-3" *ngFor="let img of imagesObj.data | filterImg:Input">
+        <mat-card class="card mat-elevation-z3  mb-md-5 ">
+            <mat-card-content>
+                <img [src]="img.original_url" alt="">
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<app-upload-img *ngIf="isvisible" (emitter)="emitterEvent($event)"></app-upload-img>
