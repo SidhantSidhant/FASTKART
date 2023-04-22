@@ -1,21 +1,23 @@
-<div class="row my-5">
-    <div class="col-md-4">
-        
-<div class="input-group">
-    <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-    <div class="input-group-append">
-      <span class="input-group-text bg-warning text-white">@</span>
+<div class="flex">
+  <div class="">
+
+    <div class="input-group">
+      <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+      <div class="input-group-append">
+        <span class="input-group-text bg-warning text-white">@</span>
+      </div>
     </div>
   </div>
+  <div class="">
+    <div class="form-group">
+      <button class="btn btn-outline-info mr-3">Add Product</button>
+      <button class="btn btn-outline-info">Add Order</button>
+      <button mat-button><mat-icon>notifiaction</mat-icon></button>
+      <button mat-button><mat-icon>moon</mat-icon></button>
+      <button mat-button matTooltip="LogOut" matTooltipClass="example-tooltip-red"
+        aria-label="Button that shows a red tooltip" class="example-button">
+        <img src="http://fastkart.webiots.co.in/storage/214/3.png" (click)="logOut()" alt="img" title="img">
+      </button>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <button class="btn btn-outline-info mr-3">Add Product</button>
-            <button class="btn btn-outline-info">Add Order</button>
-            <button mat-button><mat-icon>home</mat-icon></button>
-            <button mat-button><mat-icon>home</mat-icon></button>
-            <img src="http://fastkart.webiots.co.in/storage/214/3.png" alt="img" title="img">
-        </div>
-    </div>
+  </div>
 </div>
-

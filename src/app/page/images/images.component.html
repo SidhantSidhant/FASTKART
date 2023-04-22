@@ -1,21 +1,15 @@
 <div class="d-flex flex-column">
     <div col="input">
-        <h1 class="text-capitalize mb-md-5 text-center">media library</h1>
+        <h1 class="text-capitalize mb-md-3 text-center">media library</h1>
         <div class="form-group zindex">
             <label for="Search"><strong>Search : -</strong></label>
             <input type="text" [(ngModel)]="Input" class="form-control">
         </div>
     </div>
     <hr>
-    <div class="text-right">
-        <select id="" class="form-control mb-3" #ref [ngStyle]="{ 'padding': '10px'}">
-            <option value="" *ngFor="let arr of sortArray | sort : ref.value">{{arr}}</option>
-        </select>
-
-        <div [ngStyle]="{'margin-bottom': '1rem'}">
-            <button class="btn btn-info" (click)="DragSlider()"> + Add Media</button>
-        </div>
-    </div>
+    <ng-container>
+            <button class="btn btn-info right mb-5" (click)="DragSlider()"> + Add Media</button>
+    </ng-container>
 </div>
 
 <div class="row ml-2 mt-md-5 mt-xs-3 ">

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -11,8 +11,8 @@ import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit, OnDestroy {
-  obj: any;
+export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
+  obj: any = {};
   skills: any[] = JSON.parse(localStorage.getItem('obj')!)
   displayedColumns: string[] = ['number', 'name', 'created_at', "Edit", "delete"];
   dataSource = new MatTableDataSource<any>(this.skills);
@@ -40,6 +40,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   getData(count: number, size: number) {
+    localStorage.setItem("obj", JSON.stringify(this.obj.data))
     this.subscription = this.__loginservice.getFastKartdata(count, size).subscribe((res: any) => {
       console.log(res);
       this.obj = res;

@@ -34,13 +34,3 @@ export class filterImgpipe implements PipeTransform{
 }
 
 
-@Pipe({
-    name : 'sort'
-})
-export class SortPipe implements PipeTransform{
-    transform(val : any, target : string){
-        return val.sort((a:any, b : any) =>{
-             return b - a
-        })
-     }
-}

@@ -14,7 +14,7 @@ import { NavbarComponent } from './page/dashbord/navbar/navbar.component';
 import { ApiInterceptorService } from './sheard/service/api-interceptor.interceptor';
 import { AdduserComponent } from './page/adduser/adduser.component';
 import { LoaderService } from './sheard/service/loader.service';
-import { FilterPipe, SortPipe, filterImgpipe } from './sheard/pipe/filter.pipe';
+import { FilterPipe, filterImgpipe } from './sheard/pipe/filter.pipe';
 import { ImagesComponent } from './page/images/images.component';
 import { UploadImgComponent } from './page/images/upload-img/upload-img.component';
 
@@ -30,7 +30,6 @@ import { UploadImgComponent } from './page/images/upload-img/upload-img.componen
     ImagesComponent,
     UploadImgComponent,
     filterImgpipe,
-    SortPipe
   ],
   imports: [
     BrowserModule,

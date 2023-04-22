@@ -14,3 +14,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     align-items: center;
 }
 
+.flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+
+
+.right{
+    display: block;
+    margin-left: auto;
+}
+
+@media all and (max-width : 776px){
+    .flex{
+        flex-direction: column;
+    }
+
+    .right{
+        display: block;
+        width: 100%;
+    }
+}

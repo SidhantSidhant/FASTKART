@@ -1,7 +1,20 @@
 
+
 img{
     max-width: 3rem;
     height: 3rem;
     border-radius: 2rem;
     cursor : pointer;
+}
+
+@media all and (max-width : 776px){
+   
+    button{
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    img{
+        width: 100%;
+    }
 }
