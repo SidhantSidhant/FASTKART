@@ -1,4 +1,3 @@
-
 <div class="d-flex flex-column">
     <div col="input">
         <h1 class="text-capitalize mb-md-3 text-center">media library</h1>
@@ -9,19 +8,22 @@
     </div>
     <hr>
     <ng-container>
-            <button class="btn btn-info right mb-5 dnone" (click)="DragSlider()"> + Add Media</button>
+        <button class="btn btn-info right mb-5 dnone" (click)="DragSlider()"> + Add Media</button>
     </ng-container>
 </div>
 
 <div class="row ml-2 mt-md-5 mt-xs-3 ">
     <div class="col-md-3" *ngFor="let img of imagesObj?.data | filterImg:inputVal">
-        <mat-card class="card mat-elevation-z3  mb-md-5 ">
-            <mat-card-content>
+        <mat-card class=" card mat-elevation-z3  mb-md-5 ">
+            <mat-card-content class="card-content">
                 <img [src]="img.original_url" alt="">
             </mat-card-content>
+
+            <mat-card-footer>
+                <button class="zindex" mat-button (click)="onDeleteImage(img.id)">Delete</button>
+            </mat-card-footer>
         </mat-card>
-        <button mat-button (click)="onDeleteImage(img.id)">Delete</button>
     </div>
 </div>
 
-<app-upload-img *ngIf="isvisible" [getimagesdata]="getimagesdata"  (emitter)="emitterEvent($event)"></app-upload-img>
+<app-upload-img *ngIf="isvisible" [getimagesdata]="getimagesdata" (emitter)="emitterEvent($event)" (imgUploadSuccess)="uploadFile($event)"></app-upload-img>

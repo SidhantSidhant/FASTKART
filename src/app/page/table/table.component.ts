@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
@@ -15,7 +15,7 @@ import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
 })
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   displayedColumns: string[] = ['number', 'name', 'created_at', "Edit", "delete"];
-  dataSource = new MatTableDataSource<any>;
+  dataSource = new MatTableDataSource<Idata>;
   pageCount: number = 1;
   sizeCount: number = 10;
   inputValue !: string;
@@ -25,13 +25,18 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
   constructor(private __loginservice: LoginService,
-    private router: Router,
+    private router: Router, private _route: ActivatedRoute,
     private _snackbar: SnackBarService,
     private _subjectobsservice: SubjectObsService
   ) { }
 
   ngOnInit(): void {
     this.getRoletdata(this.pageCount, this.sizeCount);
+    this._route.params.subscribe((param: Params) => {
+      this.__loginservice.getRoleSingleUserData(param['id']).subscribe((userdata: Idata) => {
+        this.dataSource.data.push(userdata)
+      })
+    })
   }
 
   ngAfterViewInit() {
@@ -46,7 +51,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  redirecttopath(str: string, id?: string) {
+  redirecttopath(str: string, id?: string): void {
     if (str === "adduser") {
       this.router.navigate([`dashbord/${str}`])
     } else {
@@ -61,9 +66,9 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   deletedTheSingleUser(id: string) {
     this.subscription1$ = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
       this._snackbar.openSnackBar("You want To Delete The Element", 'yes');
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload()
-      },2000)
+      }, 2000)
     }, (err) => {
       this._snackbar.openSnackBar("This Role Cannot be deleted. It is System reserved.", 'ok');
     });

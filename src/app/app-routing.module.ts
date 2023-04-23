@@ -29,6 +29,8 @@ const routes: Routes = [
       
       {
         path : 'images', component : ImagesComponent
+      },{
+        path : 'table/:id', component : TableComponent
       }
     ]},
     {

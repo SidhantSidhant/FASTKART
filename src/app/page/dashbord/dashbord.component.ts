@@ -13,10 +13,9 @@ export class DashbordComponent implements OnInit, OnDestroy {
   constructor(private _loginservice: LoginService) { }
 
   ngOnInit(): void {
-    //Api is not Work
-    // this.subscription$ = this._loginservice.getFastKartApiModule().subscribe(res => {
-    // }, (error) => {
-    // })
+    this.subscription$ = this._loginservice.getFastKartApiModule().subscribe(res => {
+    }, (error) => {
+    })
   }
 
   ngOnDestroy(): void {

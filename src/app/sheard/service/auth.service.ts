@@ -17,9 +17,8 @@ export class AuthService{
         })
     }
 
-    isUserLogIn(token : string){
+    isUserLogIn(){
         this.userlogin = true;
-        localStorage.setItem("token", token);
     }
 
     isUserLogOut(){

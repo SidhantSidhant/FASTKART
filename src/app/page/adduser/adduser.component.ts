@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
-import { TableComponent } from '../table/table.component';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
-import { AbsoluteSourceSpan } from '@angular/compiler';
 import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
 
 @Component({
@@ -16,7 +14,7 @@ import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
 })
 export class AdduserComponent implements OnInit, OnDestroy {
 
-  permissionarr: number[] = [1, 2, 3, 4];
+  permissionarr: number[] = [];
   isVisible: boolean = false;
   id !: string;
   userForm !: FormGroup;
@@ -83,19 +81,19 @@ export class AdduserComponent implements OnInit, OnDestroy {
 
   addUserForm(): void {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
-    this.Subscription$4 = this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
-      setTimeout(() => { window.location.reload() }, 2000)
+    this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
+      this._subjectobsservice.imgdata.next(res);
+      this._router.navigate(['dashbord/table', res.id])
     }, (err) => {
       this._snackBarservice.openSnackBar("The name has already been taken.", "ok")
     });
-    this._router.navigate(["dashbord/table"])
     this.userForm.reset()
   }
 
   updateUsers(): void {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
-    this.Subscription$5 = this._loginservice.updateUserData(obj, this.id).subscribe(res => {
-      setTimeout(() => { window.location.reload() }, 1000)
+    this._loginservice.updateUserData(obj, this.id).subscribe(res => {
+      this._router.navigate(['dashbord/table', res.id])
     }, (err) => {
       this._snackBarservice.openSnackBar("This Role Cannot be Update. It is System reserved", "ok")
     })

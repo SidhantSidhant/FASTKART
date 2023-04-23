@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
 import { Idata } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 
@@ -16,7 +13,7 @@ export class UploadImgComponent implements OnInit, OnDestroy {
   @Output() dataemitter: EventEmitter<Idata> = new EventEmitter<Idata>()
   @Input('getimagesdata') getimagesdata !: Function;
   fileToUpload!: File;
-  subscription$ !: Subscription;
+  @Output() imgUploadSuccess: EventEmitter<any> = new EventEmitter();
 
 
   constructor(
@@ -24,7 +21,7 @@ export class UploadImgComponent implements OnInit, OnDestroy {
     private _sanitizar: DomSanitizer
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   HideDragSlider(): void {
     this.emitter.emit(false);
@@ -35,14 +32,13 @@ export class UploadImgComponent implements OnInit, OnDestroy {
   }
 
   addImges(image: any): void {
-    this.subscription$ = this._loginservice.UploadImg(this.fileToUpload).subscribe((imgdata: Idata) => {
-      this.getimagesdata();
-      window.location.reload()
+    this._loginservice.UploadImg(this.fileToUpload).subscribe((imgdata: any) => {
+      this.imgUploadSuccess.next(imgdata[0]);
+      this.emitter.emit(false)
     })
-    this.emitter.emit(false)
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe()
+
   }
 }

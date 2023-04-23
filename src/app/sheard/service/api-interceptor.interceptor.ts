@@ -17,7 +17,7 @@ export class ApiInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let updateReq = req.clone({
       headers: req.headers.append(
-        "authorization", `Bearer ${localStorage.getItem('token')}`
+        "authorization", `Bearer ${localStorage.getItem('token')}`,
       )
     })
     return next.handle(updateReq);

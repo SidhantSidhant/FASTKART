@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 
@@ -36,7 +36,12 @@ export class ImagesComponent implements OnInit, OnDestroy {
   }
 
   onDeleteImage(id: string): void {
-    this.subscription$1 = this._loginservice.singleImgDelete(id).subscribe((res: Idata) => { })
+    this.subscription$1 = this._loginservice.singleImgDelete(id).subscribe((res: Idata) => { 
+    })
+  }
+
+  uploadFile(event : any){
+    this.imagesObj.data.unshift(event);
   }
 
   ngOnDestroy(): void {

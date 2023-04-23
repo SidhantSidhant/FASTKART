@@ -25,6 +25,9 @@ export class LoginService {
   }
 
   addUsersData(body: any) : Observable<Idata>{
+    let httpheaders = new HttpHeaders({
+      "content-type" : 'application/json',
+    })
     return this._http.post<Idata>(`https://fastkart.webiots.co.in/api/role`, body)
   }
 
