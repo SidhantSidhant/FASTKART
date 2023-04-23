@@ -84,6 +84,6 @@
     <button class="btn  mr-3" type="button" [disabled]="pageCount === 1" (click)="pagination($event)">
         << </button>
             <button class="btn btn-outline-info" type="button">{{pageCount}}</button>
-            <button class="btn ml-3" type="button" [disabled]="dataSource.data.length < 10"
+            <button class="btn ml-3" type="button" [disabled]=""
                 (click)="pagination($event)">>></button>
 </div>

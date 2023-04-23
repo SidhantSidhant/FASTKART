@@ -40,7 +40,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
-    this.subscription$1.unsubscribe();
+    this.subscription$?.unsubscribe();
+    this.subscription$1?.unsubscribe();
   }
 }
