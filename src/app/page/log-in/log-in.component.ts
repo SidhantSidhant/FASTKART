@@ -18,13 +18,13 @@ export class LogInComponent implements OnInit, OnDestroy {
 
   isPasswordVisible: boolean = false;
   userLogIn !: FormGroup;
-  subscription !: Subscription;
+  subscription$ !: Subscription;
 
   constructor(private _loginservice: LoginService,
     private _snackbar: SnackBarService,
     private router: Router,
-    private _authservice : AuthService
-    ) { }
+    private _authservice: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -33,14 +33,14 @@ export class LogInComponent implements OnInit, OnDestroy {
   createForm() {
     this.userLogIn = new FormGroup({
       email: new FormControl(null, [Validators.required, EmailValidation.emailValidation]),
-      password: new FormControl(null,[Validators.required, PasswordValidation.passwordvalidation])
+      password: new FormControl(null, [Validators.required, PasswordValidation.passwordvalidation])
     })
 
   }
 
   logInForm() {
     const obj = this.userLogIn.value;
-    this.subscription = this._loginservice.userloginService(obj).subscribe((res: Ilogin) => {
+    this.subscription$ = this._loginservice.userloginService(obj).subscribe((res: Ilogin) => {
       this._authservice.isUserLogIn(res.access_token);
       this.router.navigate(["/dashbord"])
     },
@@ -55,6 +55,6 @@ export class LogInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription$.unsubscribe()
   }
 }

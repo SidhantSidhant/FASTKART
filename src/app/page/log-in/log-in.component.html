@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label for="email"><strong>Email*</strong></label>
                 <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email Address">
-                <span
+                <span class="text-danger"
                     *ngIf="formControl['email'].hasError('emailError') && formControl['email'].invalid && formControl['email'].touched ">
                     {{formControl['email'].errors?.['emailError']}}
                 </span>
@@ -25,7 +25,8 @@
                     </span>
                 </div>
             </div>
-            <p *ngIf="formControl['password'].hasError('passwordError') && formControl['password'].touched">
+            <p class="text-danger"
+                *ngIf="formControl['password'].hasError('passwordError') && formControl['password'].invalid && formControl['password'].touched ">
                 {{formControl['password'].errors?.['passwordError']}}
             </p>
 

@@ -7,21 +7,19 @@ import { LoginService } from 'src/app/sheard/service/login.service';
   templateUrl: './dashbord.component.html',
   styleUrls: ['./dashbord.component.scss']
 })
-export class DashbordComponent implements OnInit,OnDestroy {
-  subscription !: Subscription;
- 
-  constructor(private _loginservice : LoginService) { }
+export class DashbordComponent implements OnInit, OnDestroy {
+  subscription$ !: Subscription;
+
+  constructor(private _loginservice: LoginService) { }
 
   ngOnInit(): void {
-    this.subscription =  this._loginservice.getFastKartApiModule().subscribe(res =>{
-       console.log(res);
-       
-     }, (error)=>{
-      //  alert("Module Error")
-     })
+    //Api is not Work
+    // this.subscription$ = this._loginservice.getFastKartApiModule().subscribe(res => {
+    // }, (error) => {
+    // })
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription$.unsubscribe();
   }
 }

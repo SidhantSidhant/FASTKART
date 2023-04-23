@@ -20,11 +20,12 @@ export class AdduserComponent implements OnInit, OnDestroy {
   isVisible: boolean = false;
   id !: string;
   userForm !: FormGroup;
-  subscription !: Subscription;
-  subscription1 !: Subscription;
-  subscription2 !: Subscription;
-  subscription3 !: Subscription;
-  Subscription4 !: Subscription;
+  subscription$ !: Subscription;
+  subscription$1 !: Subscription;
+  subscription$2 !: Subscription;
+  subscription$3 !: Subscription;
+  Subscription$4 !: Subscription;
+  Subscription$5 !: Subscription;
 
   constructor(
     private _loginservice: LoginService,
@@ -42,7 +43,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   getRoleData(): void {
-    this._loginservice.getfastkartRoleData().subscribe((res: Ifastkartrole) => {
+    this.subscription$ = this._loginservice.getfastkartRoleData().subscribe((res: Ifastkartrole) => {
       res.data.forEach((item: Idata) => {
         if (+item.id <= 10) {
           this.permissionarr.push(+item.id)
@@ -51,8 +52,8 @@ export class AdduserComponent implements OnInit, OnDestroy {
     })
   }
 
-  getsingleuserdata() {
-    this.subscription = this._loginservice.getRoleSingleUserData(this.id).subscribe((res: Idata) => {
+  getsingleuserdata(): void {
+    this.subscription$1 = this._loginservice.getRoleSingleUserData(this.id).subscribe((res: Idata) => {
       if (+res.id < 10) {
         this.permissionarr.push(+res.id)
       }
@@ -64,25 +65,25 @@ export class AdduserComponent implements OnInit, OnDestroy {
     })
   }
 
-  getvalueformRoute() {
-    this._route.params.subscribe(res => {
+  getvalueformRoute(): void {
+    this.subscription$2 = this._route.params.subscribe(res => {
       this.id = res['id']
-    },(err) => {throw new Error()} )
+    }, (err) => { throw new Error() })
 
-    this.subscription2 = this._route.queryParams.subscribe(res => {
+    this.subscription$3 = this._route.queryParams.subscribe(res => {
       this.isVisible = res['params'];
-    },(err) => { throw new Error() })
+    }, (err) => { throw new Error() })
   }
 
-  createForm() {
+  createForm(): void {
     this.userForm = new FormGroup({
       name: new FormControl(),
     })
   }
 
-  addUserForm() {
+  addUserForm(): void {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
-    this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
+    this.Subscription$4 = this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
       setTimeout(() => { window.location.reload() }, 2000)
     }, (err) => {
       this._snackBarservice.openSnackBar("The name has already been taken.", "ok")
@@ -91,10 +92,10 @@ export class AdduserComponent implements OnInit, OnDestroy {
     this.userForm.reset()
   }
 
-  updateUsers() {
+  updateUsers(): void {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
-    this._loginservice.updateUserData(obj, this.id).subscribe(res => {
-      setTimeout(() => { window.location.reload() }, 2000)
+    this.Subscription$5 = this._loginservice.updateUserData(obj, this.id).subscribe(res => {
+      setTimeout(() => { window.location.reload() }, 1000)
     }, (err) => {
       this._snackBarservice.openSnackBar("This Role Cannot be Update. It is System reserved", "ok")
     })
@@ -102,6 +103,11 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.subscription$.unsubscribe();
+    this.subscription$1.unsubscribe();
+    this.subscription$2.unsubscribe();
+    this.subscription$3.unsubscribe();
+    this.Subscription$4.unsubscribe();
+    this.Subscription$5.unsubscribe();
   }
 }

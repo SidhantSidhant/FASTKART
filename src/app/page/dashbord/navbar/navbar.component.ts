@@ -9,13 +9,15 @@ import { AuthService } from 'src/app/sheard/service/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _router : Router, private _authservice : AuthService) { }
+  constructor(
+    private _router: Router,
+    private _authservice: AuthService
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  logOut(){
+  logOut() : void{
     this._authservice.isUserLogOut();
-    this._router.navigate(["http://localhost:4200"]);
+    this._router.navigate([""]);
   }
 }

@@ -14,14 +14,13 @@ import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
-  roledata !: Ifastkartrole;
   displayedColumns: string[] = ['number', 'name', 'created_at', "Edit", "delete"];
   dataSource = new MatTableDataSource<any>;
   pageCount: number = 1;
   sizeCount: number = 10;
   inputValue !: string;
-  subscription !: Subscription;
-  subscription1 !: Subscription;
+  subscription$ !: Subscription;
+  subscription1$ !: Subscription;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
@@ -40,11 +39,10 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getRoletdata(count: number, size: number): void {
-    this.subscription = this.__loginservice.getfastkartRoleData(count, size).subscribe((res: Ifastkartrole) => {
-      this.roledata = res;
+    this.subscription$ = this.__loginservice.getfastkartRoleData(count, size).subscribe((res: Ifastkartrole) => {
       this.dataSource.data = res.data;
     }, err => {
-      alert("Error")
+      this._snackbar.openSnackBar("You want To get The Data", 'ok')
     })
   }
 
@@ -61,7 +59,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deletedTheSingleUser(id: string) {
-    this.subscription1 = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
+    this.subscription1$ = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
       this._snackbar.openSnackBar("You want To Delete The Element", 'yes');
       setTimeout(()=>{
         window.location.reload()
@@ -110,7 +108,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
-    // this.subscription.unsubscribe();
+    this.subscription$.unsubscribe();
+    this.subscription1$.unsubscribe();
   }
 }
