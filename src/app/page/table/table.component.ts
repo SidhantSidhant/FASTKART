@@ -3,8 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
+import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
 
 @Component({
   selector: 'app-table',
@@ -12,10 +14,9 @@ import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
-  obj: any = {};
-  skills: any[] = JSON.parse(localStorage.getItem('obj')!)
+  roledata !: Ifastkartrole;
   displayedColumns: string[] = ['number', 'name', 'created_at', "Edit", "delete"];
-  dataSource = new MatTableDataSource<any>(this.skills);
+  dataSource = new MatTableDataSource<any>;
   pageCount: number = 1;
   sizeCount: number = 10;
   inputValue !: string;
@@ -26,31 +27,28 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private __loginservice: LoginService,
     private router: Router,
-    private _snackbar: SnackBarService
+    private _snackbar: SnackBarService,
+    private _subjectobsservice: SubjectObsService
   ) { }
 
   ngOnInit(): void {
-    this.getData(this.pageCount, this.sizeCount);
-
-
+    this.getRoletdata(this.pageCount, this.sizeCount);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  getData(count: number, size: number) {
-    localStorage.setItem("obj", JSON.stringify(this.obj.data))
-    this.subscription = this.__loginservice.getFastKartdata(count, size).subscribe((res: any) => {
-      console.log(res);
-      this.obj = res;
-      localStorage.setItem("obj", JSON.stringify(this.obj.data))
+  getRoletdata(count: number, size: number): void {
+    this.subscription = this.__loginservice.getfastkartRoleData(count, size).subscribe((res: Ifastkartrole) => {
+      this.roledata = res;
+      this.dataSource.data = res.data;
     }, err => {
       alert("Error")
     })
   }
 
-  setThePathOfRoute(str: string, id: string) {
+  redirecttopath(str: string, id?: string) {
     if (str === "pro") {
       this.router.navigate([`dashbord/${str}`])
     } else {
@@ -62,45 +60,52 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  DeletedTheSingleUser(id: string) {
-    this.subscription1 = this.__loginservice.DelteSingleUsers(id).subscribe((res: any) => {
+  deletedTheSingleUser(id: string) {
+    this.subscription1 = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
       this._snackbar.openSnackBar("You want To Delete The Element", 'yes');
+      setTimeout(()=>{
+        window.location.reload()
+      },2000)
     }, (err) => {
-      console.log("This Role Cannot be deleted. It is System reserved.");
-      confirm("This Role Cannot be deleted. It is System reserved.");
-
+      this._snackbar.openSnackBar("This Role Cannot be deleted. It is System reserved.", 'ok');
     });
-    this.router.navigate(["dashbord"])
+    this.router.navigate(["dashbord/table"])
   }
 
   pagination(event: Event) {
-    let element = (event.target as HTMLButtonElement)!;
+    const element = (event.target as HTMLButtonElement)!;
     console.log(element);
-    if (element.innerText === ">>") {
-      console.log('triggerd');
-      this.pageCount = ++this.pageCount;
-      this.getData(this.pageCount, this.sizeCount)
-    } else {
-      this.pageCount--;
-      this.getData(this.pageCount, this.sizeCount);
+    switch (element.innerHTML) {
+      case ">>":
+        this.pageCount = ++this.pageCount;
+        this.getRoletdata(this.pageCount, this.sizeCount)
+        break
+      case "<<":
+        this.pageCount--;
+        this.getRoletdata(this.pageCount, this.sizeCount);
+        break
     }
   }
 
   paginiationSize(ele: Event) {
-    let element = (ele.target as HTMLButtonElement)!.innerText;
-    console.log(element);
-    if (element === '10') {
-      this.sizeCount = 10;
-      this.getData(this.pageCount, this.sizeCount)
-    } else if (element === '25') {
-      this.sizeCount = 25;
-      this.getData(this.pageCount, this.sizeCount)
-    } else if (element === '50') {
-      this.sizeCount = 50;
-      this.getData(this.pageCount, this.sizeCount)
-    } else if (element === '100') {
-      this.sizeCount = 100;
-      this.getData(this.pageCount, this.sizeCount)
+    const element = (ele.target as HTMLButtonElement)!.innerText;
+    switch (element) {
+      case "10":
+        this.sizeCount = 10;
+        this.getRoletdata(this.pageCount, this.sizeCount)
+        break
+      case '25':
+        this.sizeCount = 25;
+        this.getRoletdata(this.pageCount, this.sizeCount)
+        break
+      case "50":
+        this.sizeCount = 50;
+        this.getRoletdata(this.pageCount, this.sizeCount)
+        break
+      case "100":
+        this.sizeCount = 100;
+        this.getRoletdata(this.pageCount, this.sizeCount)
+        break
     }
   }
 

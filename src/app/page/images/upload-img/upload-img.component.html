@@ -1,6 +1,5 @@
 
 
-
 <div class="silderBox" >
     <div class="slide mat-elevation-z7 p-4">
         <div class="d-flex justify-content-between">
@@ -11,9 +10,9 @@
                 </mat-icon>
             </button>
         </div>
-        <form #f="ngForm" (ngSubmit)="InsetrtTheImg(f)">
+        <form #f="ngForm" (ngSubmit)="addImges(Image)">
             <div class="imgUploadButton">
-                <input type="file" name="imgpath" value="select" ngModel class="text-capitalize input" id=""
+                <input type="file" #Image name="imgpath" value="select" ngModel class="text-capitalize input" id=""
                     (change)="selectFile($event)" multiple
                 >
             </div>

@@ -1,4 +1,4 @@
-export interface Ifastkart {
+export interface Ifastkartrole {
     current_page: number
     data: Idata[]
     first_page_url: string
@@ -15,7 +15,7 @@ export interface Ifastkart {
   }
   
   export interface Idata {
-    id: number
+    id: string 
     name: string
     guard_name: string
     system_reserve: string
@@ -42,5 +42,28 @@ export interface Ifastkart {
     url?: string
     label: string
     active: boolean
+  }
+  
+
+
+
+  export interface Ilogin {
+    access_token: string
+    permissions ?: Permission[]
+    success: boolean
+  }
+  
+  export interface Permission {
+    id: number
+    name: string
+    guard_name: string
+    created_at: string
+    updated_at: string
+    pivot: Irole
+  }
+  
+  export interface Irole {
+    role_id: string
+    permission_id: string
   }
   

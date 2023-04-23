@@ -22,12 +22,12 @@
                 </button>
                 <span [matMenuTriggerFor]="menu" [ngStyle]="{'cursor' : 'pointer' }" class="ml-1">Users</span>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>- Add users</button>
+                    <button mat-menu-item routerLink="adduser" routerLinkActive="icon">- Add users</button>
                     <button mat-menu-item routerLinkActive="icon" routerLink="table">- Role</button>
                 </mat-menu>
             </div>
             <div>
-                <button mat-button class="text-white ml-1" routerLinkActive="icon">
+                <button mat-button class="text-white ml-1">
                     <mat-icon>image</mat-icon>
                 </button>
                 <span class="ml-1" [ngStyle]="{'cursor' :'pointer'}"   routerLink="images">media</span>

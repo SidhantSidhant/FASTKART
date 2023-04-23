@@ -19,7 +19,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'pro', component: AdduserComponent
+        path: 'adduser', component: AdduserComponent
       },
       {
         path: 'edit/:id', component: AdduserComponent

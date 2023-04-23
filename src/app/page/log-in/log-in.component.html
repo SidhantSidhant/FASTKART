@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="logInForm">
-        <form [formGroup]="userLogIn" (ngSubmit)="LogInUserForm()">
+        <form [formGroup]="userLogIn" (ngSubmit)="logInForm()">
             <div>
                 <h1 class="text-info text-capitalize">Welcome To Fastkart</h1>
                 <h3>Log In Your Account</h3>
@@ -8,6 +8,10 @@
             <div class="form-group">
                 <label for="email"><strong>Email*</strong></label>
                 <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email Address">
+                <span
+                    *ngIf="formControl['email'].hasError('emailError') && formControl['email'].invalid && formControl['email'].touched ">
+                    {{formControl['email'].errors?.['emailError']}}
+                </span>
             </div>
             <strong class="d-block">Password</strong>
             <div class="input-group">

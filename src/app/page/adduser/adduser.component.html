@@ -1,11 +1,11 @@
 
-<form [formGroup]="userForm" (ngSubmit)="AddUserForm()">
+<form [formGroup]="userForm" (ngSubmit)="addUserForm()">
     <div class="form-group">
         <label for="name">name</label>
         <input type="text" class="form-control" formControlName="name" placeholder="name">
     </div>
     <div class="text-right">
         <button class="btn btn-outline-primary" *ngIf="!isVisible" type="submit">Save</button>
-        <button class="btn btn-outline-nfo" (click)="UpdateUsers()" type="button" *ngIf="isVisible">Save</button>
+        <button class="btn btn-outline-nfo" (click)="updateUsers()" type="button" *ngIf="isVisible">Save</button>
     </div>
 </form>

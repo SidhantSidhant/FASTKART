@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 
 @Component({
@@ -8,20 +10,19 @@ import { LoginService } from 'src/app/sheard/service/login.service';
 })
 export class ImagesComponent implements OnInit {
   isvisible : boolean = false;
-  imagesObj : any = {};
-  sortArray : string[] = ["Sort By newest", "Sort By oldest", "Sort By smallest", "Sort By largest"]
-  Input !:string;
+  imagesObj !: Ifastkartrole ;
+  inputVal !:string;
+
 
   constructor(private _loginservice : LoginService) { }
 
   ngOnInit(): void {
-    this.getImgData()
+    this.getimagesdata()
   }
 
-  getImgData(){
-      this._loginservice.getImagesData().subscribe(res =>{
-          console.log(res);
-          this.imagesObj = res;
+  getimagesdata(img ?: Idata) : void{
+      this._loginservice.getImagesData().subscribe((res : Ifastkartrole) =>{
+        this.imagesObj = res;
       })
   }
 
@@ -31,5 +32,12 @@ export class ImagesComponent implements OnInit {
 
   emitterEvent(value : boolean){
     this.isvisible = value;
+  }
+
+  onDeleteImage(id : string){
+    this._loginservice.singleImgDelete(id).subscribe((res : Idata) =>{
+        console.log(res);
+        
+    })
   }
 }

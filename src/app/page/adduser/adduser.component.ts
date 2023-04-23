@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Idata, Ifastkart } from 'src/app/sheard/model/fastKart';
+import { Subject, Subscription } from 'rxjs';
+import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 import { TableComponent } from '../table/table.component';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
 import { AbsoluteSourceSpan } from '@angular/compiler';
+import { SubjectObsService } from 'src/app/sheard/service/subjectObs.service';
 
 @Component({
   selector: 'app-adduser',
@@ -15,7 +16,7 @@ import { AbsoluteSourceSpan } from '@angular/compiler';
 })
 export class AdduserComponent implements OnInit, OnDestroy {
 
-  countArr: number[] = [];
+  permissionarr: number[] = [1, 2, 3, 4];
   isVisible: boolean = false;
   id !: string;
   userForm !: FormGroup;
@@ -29,46 +30,48 @@ export class AdduserComponent implements OnInit, OnDestroy {
     private _loginservice: LoginService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _snackBarservice: SnackBarService
+    private _snackBarservice: SnackBarService,
+    private _subjectobsservice: SubjectObsService
   ) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.getParamsVal();
-    this.subscription = this._loginservice.getSingleUserData(this.id).subscribe((res: any) => {
-      res.permissions.forEach((element: any) => {
-        this.countArr.push(element.id);
-      });
+    this.getRoleData()
+    this.getvalueformRoute();
+    this.getsingleuserdata();
+  }
 
+  getRoleData(): void {
+    this._loginservice.getfastkartRoleData().subscribe((res: Ifastkartrole) => {
+      res.data.forEach((item: Idata) => {
+        if (+item.id <= 10) {
+          this.permissionarr.push(+item.id)
+        }
+      })
+    })
+  }
+
+  getsingleuserdata() {
+    this.subscription = this._loginservice.getRoleSingleUserData(this.id).subscribe((res: Idata) => {
+      if (+res.id < 10) {
+        this.permissionarr.push(+res.id)
+      }
       if (res?.id == this.id) {
         this.userForm.patchValue({
           name: res.name
         })
       }
     })
-
-    this.getRoleData()
   }
 
-  getRoleData() {
-    this._loginservice.getFastKartdata().subscribe((res: any) => {
-      console.log(res);
-      res.data.forEach((element: Idata) => {
-        this.countArr.push(element.id)
-      })
-    })
-  }
-
-  getParamsVal() {
-   this._route.params.subscribe(res => {
+  getvalueformRoute() {
+    this._route.params.subscribe(res => {
       this.id = res['id']
-    },
-      (err) => console.log("Please inform me Params Error"))
+    },(err) => {throw new Error()} )
 
     this.subscription2 = this._route.queryParams.subscribe(res => {
       this.isVisible = res['params'];
-    },
-      (err) => console.log('please inForm me QueryParams Error'))
+    },(err) => { throw new Error() })
   }
 
   createForm() {
@@ -77,10 +80,10 @@ export class AdduserComponent implements OnInit, OnDestroy {
     })
   }
 
-  AddUserForm() {
-
-    let obj = { ...this.userForm.value, permissions: this.countArr };
-    this._loginservice.addUsersData(obj).subscribe((res: any) => {
+  addUserForm() {
+    const obj = { ...this.userForm.value, permissions: this.permissionarr };
+    this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
+      setTimeout(() => { window.location.reload() }, 4000)
     }, (err) => {
       this._snackBarservice.openSnackBar("The name has already been taken.", "ok")
     });
@@ -88,23 +91,17 @@ export class AdduserComponent implements OnInit, OnDestroy {
     this.userForm.reset()
   }
 
-  UpdateUsers() {
-    let obj = { ...this.userForm.value, permissions: this.countArr };
-    console.log(obj);
-
+  updateUsers() {
+    const obj = { ...this.userForm.value, permissions: this.permissionarr };
     this._loginservice.updateUserData(obj, this.id).subscribe(res => {
-      console.log(res);
+      setTimeout(() => { window.location.reload() }, 2000)
     }, (err) => {
-      console.log("Update-User Error")
-      confirm("This Role Cannot be Update. It is System reserved")
+      this._snackBarservice.openSnackBar("This Role Cannot be Update. It is System reserved", "ok")
     })
     this._router.navigate(["dashbord/table"])
   }
 
-  get f() {
-    return this.userForm.controls;
-  }
   ngOnDestroy(): void {
-    
+
   }
 }

@@ -1,61 +1,63 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from '@material-ui/icons';
-import { map, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
+import { Idata, Ifastkartrole, Ilogin } from '../model/fastKart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  token !: string;
-  obj: any;
-
-  FastkartloginApi: string = 'https://fastkart.webiots.co.in/api/backend/login';
-  FastkartModuleapi: string = `https://fastkart.webiots.co.in/api/module/Get`;
-  Fastkartroleapi: string = `https://fastkart.webiots.co.in/api/role`;
-  fastKartEditapi: string = `https://fastkart.webiots.co.in/api/role/1/`;
 
   constructor(private _http: HttpClient) { }
 
-  userloginService(obj: any) {
-    return this._http.post(this.FastkartloginApi, obj)
+  userloginService(obj: any) : Observable<Ilogin> {
+    return this._http.post<Ilogin>('https://fastkart.webiots.co.in/api/backend/login', obj)
   }
 
   getFastKartApiModule() {
-    return this._http.get(this.FastkartModuleapi)
+    return this._http.get(`https://fastkart.webiots.co.in/api/module/Get`)
   }
 
-  getFastKartdata(page: number = 1, size: number=10 ) {
+  getfastkartRoleData(page: number = 1, size: number=10 ) : Observable<Ifastkartrole>{
     let httpParams = new HttpParams().set("page", page).set("size", size)
-    return this._http.get(this.Fastkartroleapi, { params: httpParams })
+    return this._http.get<Ifastkartrole>(`https://fastkart.webiots.co.in/api/role`, { params: httpParams })
   }
 
-  addUsersData(body: any) {
-    return this._http.post(`https://fastkart.webiots.co.in/api/role`, body)
+  addUsersData(body: any) : Observable<Idata>{
+    return this._http.post<Idata>(`https://fastkart.webiots.co.in/api/role`, body)
   }
 
-  updateUserData(body: any, id: string) {
+  updateUserData(body: any, id: string) : Observable<Idata>{
     let editUrl = `https://fastkart.webiots.co.in/api/role/${id}`;
-    return this._http.put(editUrl, body)
+    return this._http.put<Idata>(editUrl, body)
   }
 
-  getSingleUserData(id: string) {
-    let getSinglObj = `${this.Fastkartroleapi}/${id}`;
-    return this._http.get(getSinglObj)
+  getRoleSingleUserData(id: string) :Observable<Idata> {
+    let getSinglObj = `https://fastkart.webiots.co.in/api/role/${id}`;
+    return this._http.get<Idata>(getSinglObj)
   }
 
-  DelteSingleUsers(id: string) {
+  delteRoleSingleUsers(id: string) : Observable<Idata> {
     let deletesingleUsers = `https://fastkart.webiots.co.in/api/role/${id}`;
-    return this._http.delete(deletesingleUsers)
+    return this._http.delete<Idata>(deletesingleUsers)
   }
 
   // ------------------------------------ Imgaes -------------------------------------------//
 
-  getImagesData(){
-     return this._http.get(`https://fastkart.webiots.co.in/api/attachment`);
+  getImagesData() : Observable<Ifastkartrole>{
+     return this._http.get<Ifastkartrole>(`https://fastkart.webiots.co.in/api/attachment`);
   }
 
- UploadImg(body : any){
-   return this._http.post(`https://fastkart.webiots.co.in/api/attachment`, body)
+ UploadImg(file : any) : Observable<Idata>{
+  const formData = new FormData();
+  formData.append("attachments[0]",file,file.name)
+   return this._http.post<Idata>(`https://fastkart.webiots.co.in/api/attachment`, formData)
  }
+
+ singleImgDelete(id:string) : Observable<Idata>{
+   const singImgUrl = `https://fastkart.webiots.co.in/api/attachment/${id}`;
+   return this._http.delete<Idata>(singImgUrl)
+ }
+
 }

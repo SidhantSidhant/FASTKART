@@ -7,10 +7,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class FilterPipe implements PipeTransform {
     transform(value: any, target: string): any {
-        if (target) {
-            if (value.toLowerCase().includes(target.toLowerCase())) {
-                return value;
-            }
+        if (target && value.data.length) {
+            return value.data.filter((item :any) => { return item.name.toLowerCase().includes(target.toLowerCase())})
         } else {
             return value
         }
