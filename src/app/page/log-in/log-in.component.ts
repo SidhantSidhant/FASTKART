@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, Routes } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EmailValidation } from 'src/app/sheard/Validators/EmailValidators';
+import { PasswordValidation } from 'src/app/sheard/Validators/passwordValidation';
 import { Ilogin } from 'src/app/sheard/model/fastKart';
+import { AuthService } from 'src/app/sheard/service/auth.service';
 import { LoginService } from 'src/app/sheard/service/login.service';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
 
@@ -20,7 +22,9 @@ export class LogInComponent implements OnInit, OnDestroy {
 
   constructor(private _loginservice: LoginService,
     private _snackbar: SnackBarService,
-    private router: Router) { }
+    private router: Router,
+    private _authservice : AuthService
+    ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -29,7 +33,7 @@ export class LogInComponent implements OnInit, OnDestroy {
   createForm() {
     this.userLogIn = new FormGroup({
       email: new FormControl(null, [Validators.required, EmailValidation.emailValidation]),
-      password: new FormControl(null,)
+      password: new FormControl(null,[Validators.required, PasswordValidation.passwordvalidation])
     })
 
   }
@@ -37,7 +41,7 @@ export class LogInComponent implements OnInit, OnDestroy {
   logInForm() {
     const obj = this.userLogIn.value;
     this.subscription = this._loginservice.userloginService(obj).subscribe((res: Ilogin) => {
-      localStorage.setItem("token", res.access_token);
+      this._authservice.isUserLogIn(res.access_token);
       this.router.navigate(["/dashbord"])
     },
       (error) => {

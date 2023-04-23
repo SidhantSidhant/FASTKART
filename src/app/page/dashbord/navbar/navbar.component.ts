@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/sheard/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,14 +9,13 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _router : Router) { }
+  constructor(private _router : Router, private _authservice : AuthService) { }
 
   ngOnInit(): void {
   }
 
   logOut(){
-    localStorage.removeItem("token");
-    localStorage.removeItem("obj");
+    this._authservice.isUserLogOut();
     this._router.navigate(["http://localhost:4200"]);
   }
 }

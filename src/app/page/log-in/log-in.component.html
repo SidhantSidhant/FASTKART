@@ -25,9 +25,12 @@
                     </span>
                 </div>
             </div>
+            <p *ngIf="formControl['password'].hasError('passwordError') && formControl['password'].touched">
+                {{formControl['password'].errors?.['passwordError']}}
+            </p>
 
             <div>
-                <p class="text-info">Forgot Password </p>
+                <p class="text-info mt-3">Forgot Password </p>
             </div>
 
             <div>

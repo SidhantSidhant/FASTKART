@@ -6,6 +6,8 @@ import { TableComponent } from './page/table/table.component';
 import { AdduserComponent } from './page/adduser/adduser.component';
 import { ImagesComponent } from './page/images/images.component';
 import { UploadImgComponent } from './page/images/upload-img/upload-img.component';
+import { AuthGurdService } from './sheard/service/auth-gurd';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
   {
@@ -13,7 +15,7 @@ const routes: Routes = [
   },
 
   {
-    path: "dashbord", component: DashbordComponent, children: [
+    path: "dashbord", component: DashbordComponent,canActivate : [AuthGurdService] , children: [
       {
         path: 'table', component: TableComponent
       },
@@ -28,9 +30,12 @@ const routes: Routes = [
       {
         path : 'images', component : ImagesComponent
       }
-    ]
-  },{
-     path: '**', redirectTo : ''
+    ]},
+    {
+      path : 'pagenotfound', component : PagenotfoundComponent
+    },
+    {
+     path: "**", redirectTo : 'pagenotfound'
   }];
 
 @NgModule({

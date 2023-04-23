@@ -17,6 +17,7 @@ import { LoaderService } from './sheard/service/loader.service';
 import { FilterPipe, filterImgpipe } from './sheard/pipe/filter.pipe';
 import { ImagesComponent } from './page/images/images.component';
 import { UploadImgComponent } from './page/images/upload-img/upload-img.component';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { UploadImgComponent } from './page/images/upload-img/upload-img.componen
     ImagesComponent,
     UploadImgComponent,
     filterImgpipe,
+    PagenotfoundComponent,
   ],
   imports: [
     BrowserModule,

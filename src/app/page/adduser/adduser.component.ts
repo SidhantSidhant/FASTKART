@@ -83,7 +83,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
   addUserForm() {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
     this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
-      setTimeout(() => { window.location.reload() }, 4000)
+      setTimeout(() => { window.location.reload() }, 2000)
     }, (err) => {
       this._snackBarservice.openSnackBar("The name has already been taken.", "ok")
     });
