@@ -34,7 +34,8 @@ export class UploadImgComponent implements OnInit {
 
   addImges(image: any) {
     this._loginservice.UploadImg(this.fileToUpload).subscribe((imgdata: Idata) => {
-        this.getimagesdata()
+        this.getimagesdata();
+        window.location.reload()
     })
     this.emitter.emit(false)
   }
