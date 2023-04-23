@@ -103,11 +103,11 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
-    this.subscription$1.unsubscribe();
-    this.subscription$2.unsubscribe();
-    this.subscription$3.unsubscribe();
-    this.Subscription$4.unsubscribe();
-    this.Subscription$5.unsubscribe();
+    this.subscription$?.unsubscribe();
+    this.subscription$1?.unsubscribe();
+    this.subscription$2?.unsubscribe();
+    this.subscription$3?.unsubscribe();
+    this.Subscription$4?.unsubscribe();
+    this.Subscription$5?.unsubscribe();
   }
 }

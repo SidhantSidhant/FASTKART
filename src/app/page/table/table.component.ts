@@ -47,7 +47,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   redirecttopath(str: string, id?: string) {
-    if (str === "pro") {
+    if (str === "adduser") {
       this.router.navigate([`dashbord/${str}`])
     } else {
       this.router.navigate([`dashbord/${str}`, id], {
