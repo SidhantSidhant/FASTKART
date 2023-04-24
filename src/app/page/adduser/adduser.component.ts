@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
@@ -18,12 +18,9 @@ export class AdduserComponent implements OnInit, OnDestroy {
   isVisible: boolean = false;
   id !: string;
   userForm !: FormGroup;
-  subscription$ !: Subscription;
-  subscription$1 !: Subscription;
-  subscription$2 !: Subscription;
-  subscription$3 !: Subscription;
-  Subscription$4 !: Subscription;
-  Subscription$5 !: Subscription;
+
+
+  unsuscribe$ : Subject<void> = new Subject<void>()
 
   constructor(
     private _loginservice: LoginService,
@@ -41,7 +38,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   getRoleData(): void {
-    this.subscription$ = this._loginservice.getfastkartRoleData().subscribe((res: Ifastkartrole) => {
+   this._loginservice.getfastkartRoleData().pipe(takeUntil(this.unsuscribe$)).subscribe((res: Ifastkartrole) => {
       res.data.forEach((item: Idata) => {
         if (+item.id <= 10) {
           this.permissionarr.push(+item.id)
@@ -51,7 +48,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   getsingleuserdata(): void {
-    this.subscription$1 = this._loginservice.getRoleSingleUserData(this.id).subscribe((res: Idata) => {
+   this._loginservice.getRoleSingleUserData(this.id).pipe(takeUntil(this.unsuscribe$)).subscribe((res: Idata) => {
       if (+res.id < 10) {
         this.permissionarr.push(+res.id)
       }
@@ -64,11 +61,11 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   getvalueformRoute(): void {
-    this.subscription$2 = this._route.params.subscribe(res => {
+     this._route.params.pipe(takeUntil(this.unsuscribe$)).subscribe(res => {
       this.id = res['id']
     }, (err) => { throw new Error() })
 
-    this.subscription$3 = this._route.queryParams.subscribe(res => {
+   this._route.queryParams.pipe(takeUntil(this.unsuscribe$)).subscribe(res => {
       this.isVisible = res['params'];
     }, (err) => { throw new Error() })
   }
@@ -81,7 +78,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
 
   addUserForm(): void {
     const obj = { ...this.userForm.value, permissions: this.permissionarr };
-    this._loginservice.addUsersData(obj).subscribe((res: Idata) => {
+    this._loginservice.addUsersData(obj).pipe(takeUntil(this.unsuscribe$)).subscribe((res: Idata) => {
       this._subjectobsservice.imgdata.next(res);
       this._router.navigate(['dashbord/table', res.id])
     }, (err) => {
@@ -101,11 +98,7 @@ export class AdduserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription$?.unsubscribe();
-    this.subscription$1?.unsubscribe();
-    this.subscription$2?.unsubscribe();
-    this.subscription$3?.unsubscribe();
-    this.Subscription$4?.unsubscribe();
-    this.Subscription$5?.unsubscribe();
+    this.unsuscribe$.next();
+    this.unsuscribe$.complete();
   }
 }
