@@ -66,7 +66,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  deletedTheSingleUser(id: string) {
+  deleteusers(id: string) {
     this.subscription1$ = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
     }, (err) => {
       this._snackbar.openSnackBar("This Role Cannot be deleted. It is System reserved.", 'ok');
