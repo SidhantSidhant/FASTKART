@@ -32,17 +32,20 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.getRoletdata(this.pageCount, this.sizeCount);
-    this._route.params.subscribe((param: Params) => {
-      this.__loginservice.getRoleSingleUserData(param['id']).subscribe((userdata: Idata) => {
-        this.dataSource.data.push(userdata)
-      })
-    })
+    this.updateTable()
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
+  updateTable() {
+    this._route.params.subscribe((param: Params) => {
+      this.__loginservice.getRoleSingleUserData(param['id']).subscribe((userdata: Idata) => {
+        this.dataSource.data.push(userdata)
+      })
+    })
+  }
   getRoletdata(count: number, size: number): void {
     this.subscription$ = this.__loginservice.getfastkartRoleData(count, size).subscribe((res: Ifastkartrole) => {
       this.dataSource.data = res.data;
@@ -65,10 +68,6 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deletedTheSingleUser(id: string) {
     this.subscription1$ = this.__loginservice.delteRoleSingleUsers(id).subscribe((res: Idata) => {
-      this._snackbar.openSnackBar("You want To Delete The Element", 'yes');
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
     }, (err) => {
       this._snackbar.openSnackBar("This Role Cannot be deleted. It is System reserved.", 'ok');
     });

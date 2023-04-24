@@ -10,10 +10,9 @@ import { LoginService } from 'src/app/sheard/service/login.service';
 })
 export class UploadImgComponent implements OnInit, OnDestroy {
   @Output() emitter: EventEmitter<boolean> = new EventEmitter<boolean>()
-  @Output() dataemitter: EventEmitter<Idata> = new EventEmitter<Idata>()
   @Input('getimagesdata') getimagesdata !: Function;
   fileToUpload!: File;
-  @Output() imgUploadSuccess: EventEmitter<any> = new EventEmitter();
+  @Output() imgUploadSuccess: EventEmitter<Idata> = new EventEmitter();
 
 
   constructor(
