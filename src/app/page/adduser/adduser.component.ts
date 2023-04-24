@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Idata, Ifastkartrole } from 'src/app/sheard/model/fastKart';
 import { LoginService } from 'src/app/sheard/service/login.service';
 import { SnackBarService } from 'src/app/sheard/service/snack-bar.service';
@@ -18,8 +18,6 @@ export class AdduserComponent implements OnInit, OnDestroy {
   isVisible: boolean = false;
   id !: string;
   userForm !: FormGroup;
-
-
   unsuscribe$ : Subject<void> = new Subject<void>()
 
   constructor(
