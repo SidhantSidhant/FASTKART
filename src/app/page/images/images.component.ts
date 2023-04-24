@@ -15,6 +15,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
   subscription$ !: Subscription;
   subscription$1 !: Subscription;
 
+
   constructor(private _loginservice: LoginService) { }
 
   ngOnInit(): void {
@@ -36,11 +37,14 @@ export class ImagesComponent implements OnInit, OnDestroy {
   }
 
   onDeleteImage(id: string): void {
-    this.subscription$1 = this._loginservice.singleImgDelete(id).subscribe((res: Idata) => { 
+    this.subscription$1 = this._loginservice.singleImgDelete(id).subscribe((res: Idata) => {
+    })
+    this.imagesObj.data = this.imagesObj.data.filter((item: Idata) => {
+      return item.id !== id;
     })
   }
 
-  uploadFile(event : any){
+  uploadFile(event: any) {
     this.imagesObj.data.unshift(event);
   }
 

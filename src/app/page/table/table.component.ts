@@ -71,6 +71,11 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     }, (err) => {
       this._snackbar.openSnackBar("This Role Cannot be deleted. It is System reserved.", 'ok');
     });
+      this.__loginservice.getRoleSingleUserData(id).subscribe((userdata: Idata) => {
+       this.dataSource.data = this.dataSource.data.filter((item : Idata)=>{
+         return item.id !== id;
+       })
+    })
     this.router.navigate(["dashbord/table"])
   }
 
